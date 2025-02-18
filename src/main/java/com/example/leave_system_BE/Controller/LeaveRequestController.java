@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.leave_system_BE.Model.LeaveRequest;
+import com.example.leave_system_BE.Repository.LeaveRequestRepository;
 import com.example.leave_system_BE.Service.LeaveRequestService;
 
 @RestController
@@ -22,6 +23,9 @@ public class LeaveRequestController {
 
     @Autowired
     private LeaveRequestService leaveRequestService;
+
+    @Autowired
+    private LeaveRequestRepository leaveRequestRepository;
 
     // POST /api/leave-requests - สร้างคำขอลา
     @PostMapping
@@ -33,7 +37,7 @@ public class LeaveRequestController {
     // GET /api/leave-requests - ดูประวัติการลา
     @GetMapping
     public ResponseEntity<List<LeaveRequest>> getAllLeaveRequests() {
-        List<LeaveRequest> leaveRequests = leaveRequestService.getAllLeaveRequests();
+        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllWithUserAndLeaveType();
         return ResponseEntity.ok(leaveRequests);
     }
 

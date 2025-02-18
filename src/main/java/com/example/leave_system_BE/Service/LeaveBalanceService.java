@@ -14,8 +14,8 @@ public class LeaveBalanceService {
     @Autowired
     private LeaveBalanceRepository leaveBalanceRepository;
 
-    // ดูจำนวนวันลาคงเหลือ
     public List<LeaveBalance> getLeaveBalances() {
-        return leaveBalanceRepository.findAll();
+        return leaveBalanceRepository.findAll(); 
     }
+    
 }

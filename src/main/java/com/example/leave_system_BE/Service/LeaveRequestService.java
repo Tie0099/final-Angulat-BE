@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.leave_system_BE.Model.LeaveRequest;
 import com.example.leave_system_BE.Repository.LeaveRequestRepository;
@@ -16,16 +17,18 @@ public class LeaveRequestService {
     private LeaveRequestRepository leaveRequestRepository;
 
     // สร้างคำขอลา
+    @Transactional
     public LeaveRequest createLeaveRequest(LeaveRequest leaveRequest) {
         return leaveRequestRepository.save(leaveRequest);
-    }
+    }    
 
     // ดูประวัติการลา
     public List<LeaveRequest> getAllLeaveRequests() {
-        return leaveRequestRepository.findAll();
-    }
+        return leaveRequestRepository.findAllWithUserAndLeaveType();
+    }     
 
     // อัพเดทสถานะการลา
+    @Transactional
     public LeaveRequest updateLeaveRequestStatus(Long id, String status) {
         Optional<LeaveRequest> leaveRequestOpt = leaveRequestRepository.findById(id);
         if (leaveRequestOpt.isPresent()) {
@@ -33,6 +36,7 @@ public class LeaveRequestService {
             leaveRequest.setStatus(status);
             return leaveRequestRepository.save(leaveRequest);
         }
-        return null; 
+        return null;
     }
+    
 }
